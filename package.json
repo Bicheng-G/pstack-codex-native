@@ -1,0 +1,13 @@
+{
+  "name": "pstack-codex-native",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A self-contained Codex-native adaptation of pstack engineering workflows",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "test": "node --test tests/install.test.mjs tests/package.test.mjs skills/pstack/scripts/log.test.mjs"
+  }
+}
