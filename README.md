@@ -1,10 +1,28 @@
-# pstack for Codex
+# pstack-codex-native — engineering workflows for Codex
 
-A standalone, Codex-native adaptation of [Lauren Tan's pstack](https://github.com/cursor/plugins/tree/190d28736eff128ec94f502a22c7fe0c4b56cd37/pstack). One skill provides **56 named actions and 23 engineering playbooks** for investigation, architecture, implementation, adversarial review and verification.
+**Investigate code, reproduce bugs, review changes and verify the result with one Codex skill.**
 
-[中文安装与使用说明](README.zh-CN.md) · [Action index](skills/pstack/references/index.md) · [Adaptation and limitations](skills/pstack/SOURCE.md)
+`pstack-codex-native` is a standalone, community adaptation of [Lauren Tan's pstack](https://github.com/cursor/plugins/tree/190d28736eff128ec94f502a22c7fe0c4b56cd37/pstack) for OpenAI Codex. One project-local skill provides **56 named actions and 23 engineering playbooks** for code investigation, architecture, bug fixing, refactoring, adversarial code review and verification.
+
+[中文说明](README.zh-CN.md) · [Workflow examples](docs/workflows.md) · [FAQ](docs/faq.md) · [Action index](skills/pstack/references/index.md) · [Adaptation and limitations](skills/pstack/SOURCE.md)
 
 This is a community adaptation, independent of the upstream project and OpenAI. It retains the upstream MIT notice. It is a collection of agent instructions and a small local logging helper, rather than a new agent runtime.
+
+## When to use it
+
+Use pstack when a coding task needs an explicit investigation, review or verification process. You choose the task and scope; the skill supplies a reusable workflow.
+
+| Your task | Start with | What to ask for |
+| --- | --- | --- |
+| Understand an unfamiliar codebase | `$pstack how` | Trace ownership and data flow from actual source, without edits. |
+| Fix a reproducible bug | `$pstack poteto-mode` | Reproduce the failure, fix its root cause and verify the original flow. |
+| Review a diff before merging | `$pstack interrogate` | Challenge the change, substantiate findings and leave files unchanged. |
+| Make an architecture decision | `$pstack architect` | Compare material alternatives and explain ownership trade-offs. |
+| Find the right workflow | `$pstack poteto-help` | Choose an action for your task. |
+
+For a small deterministic edit, ask Codex directly. pstack does not require a multi-agent process for every task. See [copyable workflow examples](docs/workflows.md) for prompts and evidence to check.
+
+If these workflows are useful, star this repository to save it for your next project.
 
 ## Install into a project
 
@@ -31,6 +49,8 @@ Alternatively, ask Codex's skill installer:
 Manual installation also works: copy the whole `skills/pstack` directory, including its references, scripts, license and source map, into the project's `.agents/skills` directory. Do not copy only `SKILL.md`.
 
 Start a fresh turn or session so the host discovers the installed skill. On hosts with different discovery behavior, use their skill-loading instructions and the installed file path.
+
+For a first task, try `$pstack how explain this project's entry point and state ownership; cite source files and do not edit anything`. See the [recorded installation check](docs/installation-check.md) for verified setup behavior and its limits.
 
 ## Use
 
@@ -77,6 +97,22 @@ npm test
 No dependency installation is needed. Validation checks the package, action/playbook coverage and local documentation links. Tests exercise the installer and TSV helper. These checks do not establish live multi-agent quality, webhook delivery, scheduling, PR landing, or product acceptance.
 
 For updates, pull the source and review the differences, preserving any local changes in the installed skill before replacing it. The installer deliberately refuses an existing destination.
+
+## Frequently asked questions
+
+**Is this the official pstack or an OpenAI plugin?** No. This repository is an independent MIT-licensed community adaptation of Lauren Tan's pstack. It installs one Codex skill, not the upstream Cursor/Claude plugin.
+
+**Are there 56 separate skills?** No. There is one discoverable `$pstack` skill with 56 internal actions and 23 playbooks. Load the action you need through that entry point.
+
+**Does installation require an API key?** The installer needs Git and Node.js 22+, with no npm dependencies or API keys. Running tasks still requires access to your Codex host and any external tools that the task needs.
+
+**Does it run agents or watch pull requests in the background?** No background service is bundled. Delegation, browser access, GitHub operations and scheduling depend on the current host's available tools and the user's authorization.
+
+Read the [full FAQ](docs/faq.md) for installation, updates, verification limits and the differences from upstream.
+
+## Feedback and contributions
+
+Trying it on a real task is the most useful contribution. [Open an issue](https://github.com/Bicheng-G/pstack-codex-native/issues) with the action, prompt, expected behavior, actual result and checks you ran. Remove secrets and private project data. Reports of installation failures, unclear workflow steps and unsupported host assumptions are welcome.
 
 ## Source and license
 
