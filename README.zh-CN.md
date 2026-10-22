@@ -1,8 +1,26 @@
-# pstack Codex 原生适配版
+# pstack-codex-native：Codex 工程工作流 Skill
 
-将 [Lauren Tan 的 pstack](https://github.com/cursor/plugins/tree/190d28736eff128ec94f502a22c7fe0c4b56cd37/pstack) 整理为一个可独立安装的 Codex Skill，提供 **56 个子动作和 23 个工程 playbook**。
+**用一个 Codex Skill，调查代码、复现 bug、审查改动并验证结果。**
 
-[English guide](README.md) · [动作索引](skills/pstack/references/index.md) · [适配范围与限制](skills/pstack/SOURCE.md)
+`pstack-codex-native` 将 [Lauren Tan 的 pstack](https://github.com/cursor/plugins/tree/190d28736eff128ec94f502a22c7fe0c4b56cd37/pstack) 适配为一个可独立安装、按项目使用的 OpenAI Codex Skill，提供 **56 个子动作和 23 个工程 playbook**，覆盖代码调查、架构设计、bug 修复、重构、对抗性代码评审和结果验证。
+
+[English guide](README.md) · [工作流示例](docs/workflows.md) · [FAQ](docs/faq.md) · [动作索引](skills/pstack/references/index.md) · [适配范围与限制](skills/pstack/SOURCE.md)
+
+这是独立的 MIT 开源社区适配版，与 OpenAI 及上游项目无隶属关系。安装的是工程指令和少量本地辅助代码。
+
+## 适合什么任务
+
+| 你要做的事 | 入口 | 希望拿到的结果 |
+| --- | --- | --- |
+| 理解陌生代码 | `$pstack how` | 根据源码解释数据流和状态归属，不改文件。 |
+| 修复可复现的 bug | `$pstack poteto-mode` | 先复现，再修根因，最后验证原来的用户路径。 |
+| 合并前审查 diff | `$pstack interrogate` | 核实问题并提供证据，保持只读。 |
+| 做架构取舍 | `$pstack architect` | 比较实际可行的方案，说明数据和职责归属。 |
+| 不知道该选哪个动作 | `$pstack poteto-help` | 根据任务选择合适的入口。 |
+
+简单、确定的小改动可以直接交给 Codex，无需套完整流程。[工作流示例](docs/workflows.md)提供可复制的 prompt，以及验收时应检查的证据。
+
+如果这些工作流对你有用，欢迎 Star，方便下次做项目时找到它。
 
 ## 安装
 
@@ -68,5 +86,21 @@ npm test
 检查覆盖文件完整性、索引、内部链接、安装器和日志工具，不代表真实多模型、定时任务、PR 合并或产品验收已通过。
 
 更新时先拉取源码、审阅差异并保留已安装版本中的本地改动，再决定替换范围。安装器不会覆盖原目录。
+
+## 常见问题
+
+**这是官方 pstack 或 OpenAI 插件吗？** 不是，是基于 Lauren Tan 的 pstack 制作的独立社区适配版，保留 MIT 许可证与来源映射。
+
+**安装后有 56 个独立 Skill 吗？** 没有。只安装一个 `$pstack`，通过它调用 56 个内部动作和 23 个 playbook。
+
+**需要 API key 吗？** 安装器不需要 API key 或 npm 依赖，只需要 Git 和 Node.js 22+。执行任务仍需要相应 Codex 宿主的访问权限；外部工具也可能需要单独配置。
+
+**会自动后台运行或监控 PR 吗？** 不会。仓库不附带常驻服务，子代理、浏览器、GitHub 和调度能力取决于宿主实际提供的工具及用户授权。
+
+更多安装、更新和适配问题见 [FAQ](docs/faq.md)。
+
+## 反馈与贡献
+
+欢迎拿一个真实任务试用。如果安装失败、步骤不清楚或发现宿主能力不匹配，请[提交 issue](https://github.com/Bicheng-G/pstack-codex-native/issues)，附上动作、prompt、预期行为、实际结果和已执行的检查。提交前移除密钥及私有项目数据。
 
 上游版本、文件来源映射和 MIT 许可证均随包保留，见 [SOURCE.md](skills/pstack/SOURCE.md)、[upstream-map.json](skills/pstack/upstream-map.json) 和 [LICENSE](LICENSE)。
